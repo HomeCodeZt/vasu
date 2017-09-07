@@ -1,3 +1,4 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+cusstom_routes:
+     resource: "@AppBundle/Resources/config/routing/custom_routes.yml"
+     host:    %base_host%
+
