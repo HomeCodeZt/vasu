@@ -63,6 +63,13 @@ class Visitor
      */
     private $dateVisit;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="doc_num", type="string", length=200)
+     */
+    private $docNum;
+
 
     /**
      * Get id
@@ -210,5 +217,21 @@ class Visitor
     public function getDateVisit()
     {
         return $this->dateVisit;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDocNum()
+    {
+        return $this->docNum;
+    }
+
+    /**
+     * @param string $docNum
+     */
+    public function setDocNum($docNum)
+    {
+        $this->docNum = $docNum;
     }
 }
