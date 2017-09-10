@@ -14,7 +14,11 @@ class Design2VisitorRepository extends EntityRepository
 {
 
     /**
-     * SELECT * FROM `design2visitor` as d inner join visitor as v on d.visitor_id = v.id inner join file as f on d.file_id = f.id where v.s_name = 'Хомюк'
+     * @param $docNum
+     * @param $sName
+     * @param $startDate \DateTime
+     * @param $endDate \DateTime
+     * @return array
      */
     public  function search($docNum,$sName,$startDate,$endDate){
         
@@ -35,10 +39,10 @@ class Design2VisitorRepository extends EntityRepository
             $params['sName'] = $sName;
         }
         if($startDate){
-            $qb->andWhere('d.dateCreated > :starDate')
-                ->andWhere('d.dateCreated < :endDate');
-            $params['starDate'] = $startDate;
-            $params['endDate'] = $endDate;
+            $qb->andWhere('d.dateCreated  >= :starDate')
+                ->andWhere('d.dateCreated <= :endDate');
+            $params['starDate'] = $startDate->format('Y-m-d');
+            $params['endDate'] = $endDate->format('Y-m-d');
         }
         
       return  $qb->setParameters($params)

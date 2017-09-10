@@ -1,49 +1,46 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_widget(form.fName , {'attr': {'placeholder':'Имя'}}) }}
-    {{ form_widget(form.sName , {'attr': {'placeholder':'Фамилия'}})}}
-    {{ form_widget(form.tName , {'attr': {'placeholder':'Отчество'}})}}
-    {{ form_widget(form.docNum , {'attr': {'placeholder':'Номер документа'}})}}
-    {{ form_widget(form.dateVisit) }}
-    <select name="documentId">
-        {% for document in documents %}
-            <option value="{{ document.getId }}">{{ document.getType }}</option>
-        {% endfor %}
-    </select>
+ {% block header %}   {% endblock %}
+    <h2 class="text-center">Учасник судого процесу</h2>
+    {% include('default/form_visitor.html.twig') %}
+    <hr>
+    <h2 class="text-center">Пошук</h2>
 
-    <select name="typeVisitorId">
-        {% for typeVisitor in typeVisitors %}
-            <option value="{{ typeVisitor.getId }}">{{ typeVisitor.getTypeName }}</option>
-        {% endfor %}
-    </select>
-    <input type="text" name="fileNum" value="" placeholder="Номер дела">
-    {{ form_widget(form.submit) }}
-    {{ form_end(form) }}
+    <form class="form-inline" method="post" action="">
+        <div class="form-group">
+            <input class="form-control" type="text" name="searchDocNum" value="" placeholder="По номеру справи">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="searchSName" value="" placeholder="По прізвищу">
+        </div>
+        <input type="text" class="form-control" id="datetimepicker4" name="searchDateStart" value="" placeholder="По даті початок">
+        <input type="text" class="form-control" id="datetimepicker5" name="searchDateEnd" value="" placeholder="По даті кінець">
+        <input class="btn btn-primary" type="submit" value="Пошук">
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker4').datetimepicker({pickTime: false, language: 'uk'});
+                $('#datetimepicker5').datetimepicker({pickTime: false, language: 'uk'});
+                $('#appbundle_visitor_dateVisit').datetimepicker({pickTime: true, language: 'uk'});
+            });
+        </script>
+    </form>
 
     <hr>
-    <h2>Поиск</h2>
-    <form method="post" action="">
-        <input type="text" name="searchDocNum" value="" placeholder="Поиск по номеру дела">
-        <input type="text" name="searchSName" value="" placeholder="Поиск по фамилии">
-        <input type="text" name="searchDateStart" value="" placeholder="Поиск по дате начало">
-        <input type="text" name="searchDateEnd" value="" placeholder="Поиск по дате  конец">
-        <input type="submit" value="Поиск">
-    </form>
-    <h2>Результат Поиска</h2>
+    <h2 class="text-center">Результат пошуку</h2>
     {% if searchResult != null %}
-<table>
+<table class="table table-hover">
     <thead>
     <tr>
-        <th>Номер дела</th>
-        <th>Фамилия</th>
-        <th>Имя</th>
-        <th>Отчество</th>
-        <th>Тип</th>
+        <th>Номер справи</th>
+        <th>Призвіще</th>
+        <th>Ім'я</th>
+        <th>По батькові</th>
+        <th>Учасник</th>
         <th>Документ</th>
-        <th>Номер Документа</th>
+        <th>Номер документа</th>
         <th>Дата</th>
+        <th>Действие</th>
 
     </tr>
     </thead>
@@ -57,6 +54,7 @@
                 <td>{{ row.docType }}</td>
                 <td>{{ row.visitor.getDocNum }}</td>
                 <th>{{ row.visitor.getDateVisit |date('d-m-Y')}}</th>
+                <th><a type="button" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редактировать</a></th>
             </tr>
         {% endfor %}
     </table>

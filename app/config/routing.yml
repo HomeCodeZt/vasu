@@ -1,3 +1,14 @@
 main_page:
     path: /
     defaults: { _controller: AppBundle:Default:index }
+
+edit_page:
+    path: /edit/{id}
+    defaults: { _controller: AppBundle:Default:edit }
+    requirements:
+          id: \d+
+
+404_page:
+    path: /404
+    defaults: { _controller: AppBundle:Default:notFound }
+

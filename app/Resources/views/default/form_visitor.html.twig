@@ -1,0 +1,53 @@
+{{ form_start(form) }}
+<div class="form-group">
+    <input type="text" class="form-control" id="appbundle_visitor_dateVisit" name="dateVisit" value="{% if visitor is defined %}{{ visitor.getDateVisit |date('d-m-Y H:i:s')}}{% endif %}" placeholder="Дата Звернення">
+</div>
+<div class="row">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <input type="text" name="fileNum" value="{% if visitor is defined %}{{ visitor.getDocNum }}{% endif %}" placeholder="Номер справи">
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <select class="form-control" name="typeVisitorId">
+                {% for typeVisitor in typeVisitors %}
+                    <option value="{{ typeVisitor.getId }}"
+                    {% if visitor is defined and visitor.getTypeVisitorId == typeVisitor.getId %}
+                        selected
+                    {% endif %}
+                >{{ typeVisitor.getTypeName }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    {{ form_widget(form.fName , {'attr': {'placeholder':'Імя'}}) }}
+</div>
+<div class="form-group">
+    {{ form_widget(form.sName , {'attr': {'placeholder':'Прізвище'}})}}
+</div>
+<div class="form-group">
+    {{ form_widget(form.tName , {'attr': {'placeholder':'По батькові'}})}}
+</div>
+<div class="row">
+    <div class="col-xs-6">
+        <select class="form-control" name="documentId">
+            {% for document in documents %}
+            <option value="{{ document.getId }}"
+             {% if visitor is defined and visitor.getTypeDocId == document.getId %}
+                selected
+             {% endif %}
+             >{{ document.getType }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            {{ form_widget(form.docNum , {'attr': {'placeholder':'Номер документу'}})}}
+        </div>
+    </div>
+</div>
+{{ form_widget(form.submit) }}
+{{ form_end(form) }}

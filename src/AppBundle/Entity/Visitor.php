@@ -234,4 +234,5 @@ class Visitor
     {
         $this->docNum = $docNum;
     }
+    
 }

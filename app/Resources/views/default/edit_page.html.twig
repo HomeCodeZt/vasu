@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include('default/form_visitor.html.twig') %}
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker4').datetimepicker({pickTime: false, language: 'uk'});
+            $('#datetimepicker5').datetimepicker({pickTime: false, language: 'uk'});
+            $('#appbundle_visitor_dateVisit').datetimepicker({pickTime: true, language: 'uk'});
+        });
+    </script>
+{% endblock %}

@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
 {
@@ -35,6 +36,7 @@ class DefaultController extends Controller
         $documentId = $request->get('documentId');
         $typeVisitorId = $request->get('typeVisitorId');
         $fileNumber = $request->get('fileNum');
+        $dateVisit = $request->get('dateVisit');
 
         if($form->isSubmitted()){
 
@@ -47,6 +49,8 @@ class DefaultController extends Controller
 
             /** @var Visitor $visitor */
             $visitor = $form->getData();
+            $dateVisit = new \DateTime(date($dateVisit));
+            $visitor->setDateVisit($dateVisit);
             $visitor->setTypeDocId($documentId);
             $visitor->setTypeVisitorId($typeVisitorId);
             $em->persist($file);
@@ -58,7 +62,7 @@ class DefaultController extends Controller
             $design2visitor = new Design2Visitor();
             $design2visitor->setVisitorId($visitor->getId());
             $design2visitor->setFileId($file->getId());
-            $design2visitor->setDateCreated(new \DateTime('now'));
+            $design2visitor->setDateCreated($visitor->getDateVisit());
 
             $em->persist($design2visitor);
             $em->flush();
@@ -72,7 +76,7 @@ class DefaultController extends Controller
             'form' => $form->createView(),
             'documents'=>$documents,
             'typeVisitors' =>$typeVisitors,
-            'searchResult' => $searchResult
+            'searchResult' => $searchResult,
         ];
         
         return $this->render('default/index.html.twig', $templateParams);
@@ -82,13 +86,81 @@ class DefaultController extends Controller
     {
         $searchDocNum =   $request->get('searchDocNum');  
         $searchSName =  $request->get('searchSName');
-        $searchDateStart = $request->get('searchDateStart');
-        $searchDateEnd = $request->get('searchDateEnd') ? $request->get('searchDateStart') : new \DateTime('now') ;
+        $searchDateStart = str_replace('.','-',$request->get('searchDateStart'));
+        if($searchDateStart){
+            $searchDateStart = new \DateTime(date($searchDateStart));
+            $searchDateEnd = $request->get('searchDateEnd') ? new \DateTime(date(str_replace('.','-',$request->get('searchDateEnd')))) : new \DateTime('now') ;
+        }else{
+            $searchDateStart = null;
+            $searchDateEnd = null;
+        }
+
 
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
 
         $result = $em->getRepository('AppBundle:Design2Visitor')->search($searchDocNum,$searchSName,$searchDateStart,$searchDateEnd);
         return $result;
+    }
+    
+    public function editAction(Request $request,$id){
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+        $visitor = $em->getRepository('AppBundle:Visitor')->find($id);
+        if($visitor){
+            $form = $this->createForm(VisitorType::class, $visitor);
+            $form->handleRequest($request);
+
+            if($form->isSubmitted()){
+
+                $documentId = $request->get('documentId');
+                $typeVisitorId = $request->get('typeVisitorId');
+                $fileNumber = $request->get('fileNum');
+                $dateVisit = $request->get('dateVisit');
+
+
+                $file = $em->getRepository('AppBundle:File')->findOneBy(['number'=>$fileNumber]);
+                if($file == null){
+                    $file = new File();
+                    $file->setNumber($fileNumber);
+                    $file->setDescription('');
+                }
+
+                /** @var Visitor $visitor */
+                $visitor = $form->getData();
+                $dateVisit = new \DateTime(date($dateVisit));
+                $visitor->setDateVisit($dateVisit);
+                $visitor->setTypeDocId($documentId);
+                $visitor->setTypeVisitorId($typeVisitorId);
+                $em->persist($file);
+                $em->persist($visitor);
+                $em->flush();
+                return $this->redirectToRoute('main_page');
+            }
+
+
+            $documents = $em->getRepository('AppBundle:Document')->findAll();
+            $typeVisitors = $em->getRepository('AppBundle:TypeVisitor')->findAll();
+            
+            $params = [
+                'form'=>$form->createView(),
+                'visitor' => $visitor,
+                'documents' => $documents,
+                'typeVisitors' => $typeVisitors
+            ];
+            
+            return $this->render(':default:edit_page.html.twig',$params);
+        }else{
+            return $this->notFoundAction($request);
+        }
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function  notFoundAction(Request $request){
+        return $this->render('default/404.html.twig',[]);
     }
 }
