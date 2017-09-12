@@ -29,7 +29,7 @@ class Design2VisitorRepository extends EntityRepository
             ->innerJoin('AppBundle:Visitor', 'v', 'WITH', 'v.id = d.visitorId')
             ->innerJoin('AppBundle:File', 'f', 'WITH', 'f.id = d.fileId')
             ->innerJoin('AppBundle:TypeVisitor', 'tv', 'WITH', 'tv.id = v.typeVisitorId')
-             ->innerJoin('AppBundle:Document', 'dc', 'WITH', 'dc.id = v.typeVisitorId');
+             ->innerJoin('AppBundle:Document', 'dc', 'WITH', 'dc.id = v.typeDocId');
         if($docNum){
             $qb->where('f.number = :docNum');
             $params['docNum'] = $docNum;
@@ -50,4 +50,24 @@ class Design2VisitorRepository extends EntityRepository
             ->getResult();
                     
     }
+
+
+    public  function searchBySName($sName){
+
+        $string = "^$sName.*.$";
+
+        $sql = "select * from design2visitor as d 
+                inner join visitor as v on v.id = d.visitor_id 
+                inner join file as f on f.id = d.file_id 
+                inner join type_visitor as tv on tv.id = v.type_visitor_id 
+                inner join document as dc on dc.id = v.type_doc_id 
+                where v.s_name REGEXP '".$string."'";
+
+        $connection =  $this->_em->getConnection();
+
+         return $result = $connection->query($sql)->fetchAll();
+
+    }
+
+
 }

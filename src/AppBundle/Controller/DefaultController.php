@@ -8,8 +8,9 @@ use AppBundle\Entity\Visitor;
 use AppBundle\Form\VisitorType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
@@ -89,7 +90,7 @@ class DefaultController extends Controller
         $searchDateStart = str_replace('.','-',$request->get('searchDateStart'));
         if($searchDateStart){
             $searchDateStart = new \DateTime(date($searchDateStart));
-            $searchDateEnd = $request->get('searchDateEnd') ? new \DateTime(date(str_replace('.','-',$request->get('searchDateEnd')))) : new \DateTime('now') ;
+            $searchDateEnd = $request->get('searchDateEnd') != null ? new \DateTime(date(str_replace('.','-',$request->get('searchDateEnd')))) : new \DateTime('now') ;
         }else{
             $searchDateStart = null;
             $searchDateEnd = null;
@@ -162,5 +163,33 @@ class DefaultController extends Controller
      */
     public function  notFoundAction(Request $request){
         return $this->render('default/404.html.twig',[]);
+    }
+    
+    public function  ajaxSearchAction(Request $request){
+        if ($request->isXmlHttpRequest()) {
+           $phrase =  $request->get('string');
+            /** @var EntityManager $em */
+            $em = $this->get('doctrine.orm.entity_manager');
+            
+            $content = $em->getRepository('AppBundle:Design2Visitor')->searchBySName($phrase);
+            if(empty($content)){
+                $result = 0;
+            }else{
+                $result = 1;
+            }
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(
+                json_encode(
+                    [
+                        'content' => $content,
+                        'result'  => $result
+                    ]
+                )
+            );
+            return $response;
+        }else{
+            throw new BadRequestHttpException('XHR request expected');
+        }
     }
 }

@@ -12,3 +12,7 @@ edit_page:
     path: /404
     defaults: { _controller: AppBundle:Default:notFound }
 
+ajax_search:
+    path: /ajax-search
+    defaults: {_controller: AppBundle:Default:ajaxSearch}
+
