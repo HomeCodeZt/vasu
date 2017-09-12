@@ -7,7 +7,7 @@
     <hr>
     <h2 class="text-center">Пошук</h2>
 
-    <form class="form-inline" method="post" action="">
+    <form class="form-inline text-center" method="post" action="">
         <div class="form-group">
             <input class="form-control" type="text" name="searchDocNum" value="" placeholder="По номеру справи">
         </div>
@@ -40,7 +40,7 @@
         <th>Документ</th>
         <th>Номер документа</th>
         <th>Дата</th>
-        <th>Действие</th>
+        <th>Дія</th>
 
     </tr>
     </thead>
@@ -54,7 +54,7 @@
                 <td>{{ row.docType }}</td>
                 <td>{{ row.visitor.getDocNum }}</td>
                 <th>{{ row.visitor.getDateVisit |date('d-m-Y')}}</th>
-                <th><a type="button" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редактировать</a></th>
+                <th><a type="button" class="btn btn-danger" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редаувати</a></th>
             </tr>
         {% endfor %}
     </table>

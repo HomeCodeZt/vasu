@@ -1,0 +1,41 @@
+.header{
+    height: 180px;
+    background-color: #286090;
+    margin-bottom: 20px;
+}
+
+.logo{
+    padding-top: 15px;
+}
+
+.logo_text{
+    text-transform: uppercase;
+    padding-top: 50px;
+    color: #FFFF00;
+    background: -webkit-gradient(linear, left top, left bottom, from(#FFFF00), to(#F3BE00));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 2,5em;
+    font-weight: 900;
+    position: relative;
+}
+.content{
+    margin: 10px 10px 10px 10px;
+}
+.center{
+    width: 50%;
+}
+.footer {
+    color:#e4d21e;
+    height: 55px;
+    margin-top:110px;
+    background: #215990;
+    position: relative;
+    padding-top: 10px;
+}
+.footer_clock{
+    font-weight:bold;
+    color: #F6D100;
+}
