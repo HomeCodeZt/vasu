@@ -32,10 +32,10 @@
     {{ form_widget(form.sName , {'attr': {'oninput': "ajaxSearch(this)",'placeholder':'Прізвище'}})}}
 </div>
 <div class="form-group">
-    {{ form_widget(form.fName , {'attr': {'placeholder':'Імя'}}) }}
+    {{ form_widget(form.fName , {'attr': {'oninput': "ajaxSearch(this)",'placeholder':"Ім\'я"}}) }}
 </div>
 <div class="form-group">
-    {{ form_widget(form.tName , {'attr': {'placeholder':'По батькові'}})}}
+    {{ form_widget(form.tName , {'attr': {'oninput': "ajaxSearch(this)",'placeholder':'По батькові'}})}}
 </div>
 <div class="row">
     <div class="col-xs-6">

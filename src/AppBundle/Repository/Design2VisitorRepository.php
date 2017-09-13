@@ -52,16 +52,16 @@ class Design2VisitorRepository extends EntityRepository
     }
 
 
-    public  function searchBySName($sName){
+    public  function searchBySName($phrase,$field){
 
-        $string = "^$sName.*.$";
+        $string = "^$phrase.*.$";
 
-        $sql = "select * from design2visitor as d 
+        $sql = "select v.".$field." as phrase from design2visitor as d 
                 inner join visitor as v on v.id = d.visitor_id 
                 inner join file as f on f.id = d.file_id 
                 inner join type_visitor as tv on tv.id = v.type_visitor_id 
                 inner join document as dc on dc.id = v.type_doc_id 
-                where v.s_name REGEXP '".$string."'";
+                where v.".$field." REGEXP '".$string."'";
 
         $connection =  $this->_em->getConnection();
 

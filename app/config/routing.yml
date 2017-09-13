@@ -16,3 +16,8 @@ ajax_search:
     path: /ajax-search
     defaults: {_controller: AppBundle:Default:ajaxSearch}
 
+csv_export:
+    path: /export/
+    defaults: {_controller: AppBundle:Default:export}
+
+

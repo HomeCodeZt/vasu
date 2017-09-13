@@ -27,33 +27,55 @@ function clock() {
 
 function ajaxSearch(el) {
    var string = $(el).val();
+   var filed = $(el).attr('data-field');  
     $.ajax({
         type: "POST",
         dataType: 'json',
         url: "/ajax-search",
         data: {
-            'string':string
+            'string':string,
+            'field': filed
         },
         async: true
     })
         .done(function (response) {
 
             if(response.result == 1){
-                var visitor = [];
+                var phrase = [];
                 for (var i = 0; response.content.length; i++  ){
                     var name = response.content[i];
                     if(name != undefined){
-                        visitor[i] = name.s_name;
+                        phrase[i] = name.phrase;
                     }else {
                         break;
                     }
                 }
             }
+
             $('#appbundle_visitor_sName').autocomplete(
                 {
-                    source: visitor
+                    source: phrase
                 }
             );
+
+            $('#appbundle_visitor_fName').autocomplete(
+                {
+                    source: phrase
+                }
+            );
+
+            $('#appbundle_visitor_tName').autocomplete(
+                {
+                    source: phrase
+                }
+            );
+
+            $('#searchSName').autocomplete(
+                {
+                    source: phrase
+                }
+            );
+
 
         })
         .fail(function (jqXHR, textStatus, errorThrown) {

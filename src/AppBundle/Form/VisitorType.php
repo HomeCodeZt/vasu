@@ -18,9 +18,9 @@ class VisitorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fName',TextType::class, ['required' => true,'attr' => ['class' => 'form-control']])
-            ->add('sName',TextType::class, ['required' => true,'attr' => ['class' => 'form-control']])
-            ->add('tName',TextType::class, ['required' => true,'attr' => ['class' => 'form-control']])
+            ->add('fName',TextType::class,  ['required' => true,'attr' => ['class' => 'form-control', 'data-field' => 'f_name']])
+            ->add('sName',TextType::class,  ['required' => true,'attr' => ['class' => 'form-control', 'data-field' => 's_name']])
+            ->add('tName',TextType::class,  ['required' => false,'attr' => ['class' => 'form-control', 'data-field' => 't_name']])
             ->add('docNum',TextType::class, ['required' => true,'attr' => ['class' => 'form-control']])
             ->add('submit', SubmitType::class);
     }

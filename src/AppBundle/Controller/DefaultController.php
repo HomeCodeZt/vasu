@@ -32,6 +32,7 @@ class DefaultController extends Controller
         
         if($request->get('searchDocNum') || $request->get('searchSName') || $request->get('searchDateStart') ){
             $searchResult =  $this->searchAction($request);
+            $this->createCsv($searchResult);
         }
         
         $documentId = $request->get('documentId');
@@ -164,14 +165,19 @@ class DefaultController extends Controller
     public function  notFoundAction(Request $request){
         return $this->render('default/404.html.twig',[]);
     }
-    
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function  ajaxSearchAction(Request $request){
         if ($request->isXmlHttpRequest()) {
            $phrase =  $request->get('string');
+           $field =  $request->get('field');
             /** @var EntityManager $em */
             $em = $this->get('doctrine.orm.entity_manager');
             
-            $content = $em->getRepository('AppBundle:Design2Visitor')->searchBySName($phrase);
+            $content = $em->getRepository('AppBundle:Design2Visitor')->searchBySName($phrase,$field );
             if(empty($content)){
                 $result = 0;
             }else{
@@ -191,5 +197,57 @@ class DefaultController extends Controller
         }else{
             throw new BadRequestHttpException('XHR request expected');
         }
+    }
+
+
+    public  function createCsv(array $result)
+    {
+        $file = 'export/report.csv';
+
+        $file = new \SplFileObject($file, 'w+');
+        $paramsTitle= ['Вищий админ суд Учасники процесу'];
+        $paramsEmpty= ['---','----------','----------','----------','----------','----------','----------'];
+        $paramsHeader = [
+            'Номер Дела',
+            'Имя',
+            'Фамилия',
+            'Отчество',
+            'Тип Видвидувача',
+            'Тип Докуманта',
+            'Дата'
+        ];
+
+        $file->fputcsv($paramsTitle);
+        $file->fputcsv($paramsEmpty);
+        $file->fputcsv($paramsHeader);
+
+        foreach ($result as $row) {
+            /** @var Visitor $visitor */
+            $visitor = $row['visitor'];
+            $fileNumber = $row['fileNumber'];
+            $typeName = $row['typeName'];
+            $docType = $row['docType'];
+
+            $params = [
+                $fileNumber,
+                $visitor->getFName(),
+                $visitor->getSName(),
+                $visitor->getTName(),
+                $typeName,
+                $docType,
+                $visitor->getDateVisit()->format('Y-m-d H:i:s'),
+            ];
+            $file->fputcsv($params);
+        }
+    }
+    
+    public function exportAction(Request $request){
+        $file = 'export/report.csv';
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "filename=report.csv");
+        $response->setContent(file_get_contents($file));
+        return $response;
+
     }
 }
