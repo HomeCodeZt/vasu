@@ -217,9 +217,9 @@ class DefaultController extends Controller
             'Дата'
         ];
 
-        $file->fputcsv($paramsTitle);
-        $file->fputcsv($paramsEmpty);
-        $file->fputcsv($paramsHeader);
+        $file->fputcsv($this->convertorUtf8toWin1251($paramsTitle));
+        $file->fputcsv($this->convertorUtf8toWin1251($paramsEmpty));
+        $file->fputcsv($this->convertorUtf8toWin1251($paramsHeader));
 
         foreach ($result as $row) {
             /** @var Visitor $visitor */
@@ -237,7 +237,7 @@ class DefaultController extends Controller
                 $docType,
                 $visitor->getDateVisit()->format('Y-m-d H:i:s'),
             ];
-            $file->fputcsv($params);
+            $file->fputcsv($this->convertorUtf8toWin1251($params));
         }
     }
     
@@ -249,5 +249,17 @@ class DefaultController extends Controller
         $response->setContent(file_get_contents($file));
         return $response;
 
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    private function convertorUtf8toWin1251 (array $params){
+
+        foreach ($params as $key => $string){
+           $params[$key] =  mb_convert_encoding($string, "utf-8", "windows-1251");
+        }
+        return $params;
     }
 }
