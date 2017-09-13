@@ -258,7 +258,7 @@ class DefaultController extends Controller
     private function convertorUtf8toWin1251 (array $params){
 
         foreach ($params as $key => $string){
-           $params[$key] =  mb_convert_encoding($string, "utf-8", "windows-1251");
+           $params[$key] =  mb_convert_encoding($string,"windows-1251","utf-8");
         }
         return $params;
     }
