@@ -13,11 +13,7 @@
         <div class="form-group">
             <input type="text" class="form-control" name="fileNum" value="
             {% if visitor is defined %}
-                {% for file in files %}
-                    {% if visitor.getTypeDocId == file.getId %}
-                        {{ file.getNumber }}
-                    {% endif %}
-                {% endfor %}
+                 {{ currentFile.getNumber }}
             {% endif %}" placeholder="Номер справи">
         </div>
     </div>

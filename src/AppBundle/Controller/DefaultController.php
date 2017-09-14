@@ -146,14 +146,15 @@ class DefaultController extends Controller
 
             $documents = $em->getRepository('AppBundle:Document')->findAll();
             $typeVisitors = $em->getRepository('AppBundle:TypeVisitor')->findAll();
-            $files = $em->getRepository('AppBundle:File')->findAll();
+            /** @var File $files */
+            $currentFile = $em->getRepository('AppBundle:File')->find($visitor->getTypeDocId());
             
             $params = [
                 'form'=>$form->createView(),
                 'visitor' => $visitor,
                 'documents' => $documents,
                 'typeVisitors' => $typeVisitors,
-                'files' => $files 
+                'currentFile' => $currentFile 
             ];
             
             return $this->render(':default:edit_page.html.twig',$params);
