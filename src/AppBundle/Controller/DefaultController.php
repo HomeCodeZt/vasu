@@ -55,6 +55,9 @@ class DefaultController extends Controller
             $visitor->setDateVisit($dateVisit);
             $visitor->setTypeDocId($documentId);
             $visitor->setTypeVisitorId($typeVisitorId);
+            if($visitor->getTName() == null){
+                $visitor->setTName(' ');
+            }
             $em->persist($file);
             $em->persist($visitor);
             $em->flush();
