@@ -11,7 +11,13 @@
 
     <div class="col-xs-4">
         <div class="form-group">
-            <input type="text" class="form-control" name="fileNum" value="{% if visitor is defined %}{{ visitor.getDocNum }}{% endif %}" placeholder="Номер справи">
+            <input type="text" class="form-control" name="fileNum" value="{% if visitor is defined %}
+            {% for file in files %}
+                {% if visitor.getTypeDocId == file.getId %}
+                    {{ file.getNumber }}
+                {% endif %}
+            {% endfor %}
+            {% endif %}" placeholder="Номер справи">
         </div>
     </div>
     <div class="col-xs-4">
