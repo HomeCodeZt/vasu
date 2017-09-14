@@ -212,15 +212,16 @@ class DefaultController extends Controller
 
         $file = new \SplFileObject($file, 'w+');
         $paramsTitle= ['Вищий админ суд Учасники процесу'];
-        $paramsEmpty= ['---','----------','----------','----------','----------','----------','----------'];
+        $paramsEmpty= ['---','----------','----------','----------','----------','----------','----------','----------'];
         $paramsHeader = [
             'Номер Дела',
             'Имя',
             'Фамилия',
             'Отчество',
             'Тип Видвидувача',
-            'Тип Докуманта',
-            'Дата'
+            'Докуманта',
+            'Номер документа',
+            'Дата',
         ];
 
         $file->fputcsv($this->convertorUtf8toWin1251($paramsTitle),";");
@@ -241,6 +242,7 @@ class DefaultController extends Controller
                 $visitor->getTName(),
                 $typeName,
                 $docType,
+                $visitor->getDocNum(),
                 $visitor->getDateVisit()->format('Y-m-d H:i:s'),
             ];
             $file->fputcsv($this->convertorUtf8toWin1251($params),";");
