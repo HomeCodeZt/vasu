@@ -42,7 +42,7 @@ class Design2VisitorRepository extends EntityRepository
             $qb->andWhere('d.dateCreated  >= :starDate')
                 ->andWhere('d.dateCreated <= :endDate');
             $params['starDate'] = $startDate->format('Y-m-d');
-            $params['endDate'] = $endDate->format('Y-m-d');
+            $params['endDate'] = $endDate->format('Y-m-d 23:59:59');
         }
         
       return  $qb->setParameters($params)
