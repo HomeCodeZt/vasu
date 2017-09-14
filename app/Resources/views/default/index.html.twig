@@ -2,7 +2,7 @@
 
 {% block body %}
  {% block header %}   {% endblock %}
-    <h2 class="text-center">Учасник судого процесу</h2>
+    <h2 class="text-center">Учасник судового процесу</h2>
     {% include('default/form_visitor.html.twig') %}
     <hr>
     <h2 class="text-center">Пошук</h2>
@@ -54,10 +54,10 @@
                 <td>{{ row.docType }}</td>
                 <td>{{ row.visitor.getDocNum }}</td>
                 <th>{{ row.visitor.getDateVisit |date('d-m-Y H:i:s')}}</th>
-                <th><a type="button" class="btn btn-danger" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редаувати</a></th>
+                <th><a type="button" class="btn btn-danger" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редагувати</a></th>
             </tr>
         {% endfor %}
     </table>
-        <a type="button" href="{{ url('csv_export') }}">csv</a>
+        <a type="button" class="btn btn-success" href="{{ url('csv_export') }}">Експорт даних</a>
     {% endif %}
 {% endblock %}

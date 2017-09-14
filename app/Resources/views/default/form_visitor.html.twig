@@ -4,7 +4,7 @@
     <div class="col-xs-4">
         <div class="form-group">
             <div class="form-group">
-                <input type="text" class="form-control" id="appbundle_visitor_dateVisit" name="dateVisit" value="{% if visitor is defined %}{{ visitor.getDateVisit |date('d-m-Y H:i:s')}}{% endif %}" placeholder="Дата Звернення">
+                <input type="text" class="form-control" id="appbundle_visitor_dateVisit" name="dateVisit" value="{% if visitor is defined %}{{ visitor.getDateVisit |date('d-m-Y H:i:s')}}{% endif %}" placeholder="Дата звернення">
             </div>
         </div>
     </div>
@@ -55,5 +55,5 @@
         </div>
     </div>
 </div>
-{{ form_widget(form.submit) }}
+{{ form_widget(form.submit, { 'attr': {'class': 'btn btn-primary', 'name': 'Добавити'} }) }}
 {{ form_end(form) }}
