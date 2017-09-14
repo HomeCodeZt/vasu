@@ -135,7 +135,12 @@ class Visitor
      */
     public function setTName($tName)
     {
-        $this->tName = $tName;
+        if($tName){
+            $this->tName = $tName;
+        }else{
+            $this->tName = '';
+        }
+
 
         return $this;
     }
