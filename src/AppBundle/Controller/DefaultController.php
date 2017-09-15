@@ -41,24 +41,27 @@ class DefaultController extends Controller
         $dateVisit = $request->get('dateVisit');
 
         if($form->isSubmitted()){
-
+            
             $file = $em->getRepository('AppBundle:File')->findOneBy(['number'=>$fileNumber]);
             if($file == null){
                 $file = new File();
                 $file->setNumber($fileNumber);
                 $file->setDescription('');
+                $em->persist($file);
+                $em->flush();
             }
 
             /** @var Visitor $visitor */
             $visitor = $form->getData();
             $dateVisit = new \DateTime(date($dateVisit));
             $visitor->setDateVisit($dateVisit);
-            $visitor->setTypeDocId($documentId);
+            $visitor->setTypeFileId($file->getId());
             $visitor->setTypeVisitorId($typeVisitorId);
             if($visitor->getTName() == null){
                 $visitor->setTName(' ');
             }
-            $em->persist($file);
+            $visitor->setTypeDocId($documentId);
+
             $em->persist($visitor);
             $em->flush();
 
@@ -122,22 +125,24 @@ class DefaultController extends Controller
                 $typeVisitorId = $request->get('typeVisitorId');
                 $fileNumber = $request->get('fileNum');
                 $dateVisit = $request->get('dateVisit');
-
-
+                
                 $file = $em->getRepository('AppBundle:File')->findOneBy(['number'=>$fileNumber]);
-                if($file == null){
+                if($file == null ){
                     $file = new File();
                     $file->setNumber($fileNumber);
                     $file->setDescription('');
+                    $em->persist($file);
+                    $em->flush();
                 }
 
                 /** @var Visitor $visitor */
                 $visitor = $form->getData();
                 $dateVisit = new \DateTime(date($dateVisit));
                 $visitor->setDateVisit($dateVisit);
-                $visitor->setTypeDocId($documentId);
+                $visitor->setTypeFileId($file->getId());
                 $visitor->setTypeVisitorId($typeVisitorId);
-                $em->persist($file);
+                $visitor->setTypeDocId($documentId);
+
                 $em->persist($visitor);
                 $em->flush();
                 return $this->redirectToRoute('main_page');

@@ -70,6 +70,13 @@ class Visitor
      */
     private $docNum;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="type_file_id", type="integer")
+     */
+    private $typeFileId;
+
 
     /**
      * Get id
@@ -239,5 +246,22 @@ class Visitor
     {
         $this->docNum = $docNum;
     }
+
+    /**
+     * @param int $typeFileId
+     */
+    public function setTypeFileId($typeFileId)
+    {
+        $this->typeFileId = $typeFileId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTypeFileId()
+    {
+        return $this->typeFileId;
+    }   
+    
     
 }
