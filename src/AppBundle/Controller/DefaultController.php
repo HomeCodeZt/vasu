@@ -152,7 +152,7 @@ class DefaultController extends Controller
             $documents = $em->getRepository('AppBundle:Document')->findAll();
             $typeVisitors = $em->getRepository('AppBundle:TypeVisitor')->findAll();
             /** @var File $currentFile */
-            $currentFile = $em->getRepository('AppBundle:File')->find($visitor->getTypeDocId());
+            $currentFile = $em->getRepository('AppBundle:File')->find($visitor->getTypeFileId());
             
             $params = [
                 'form'=>$form->createView(),
