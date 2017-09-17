@@ -33,7 +33,7 @@
     <thead>
     <tr>
         <th>Номер справи</th>
-        <th>Призвіще</th>
+        <th>Прізвище</th>
         <th>Ім'я</th>
         <th>По батькові</th>
         <th>Учасник</th>
@@ -47,13 +47,13 @@
         {% for row in searchResult %}
             <tr>
             <td>{{ row.fileNumber }}</td>
-                <td>{{ row.visitor.getSName }}</td>
-                <td>{{ row.visitor.getFName }}</td>
-                <td>{{ row.visitor.getTName }}</td>
-                <td>{{ row.typeName }}</td>
-                <td>{{ row.docType }}</td>
-                <td>{{ row.visitor.getDocNum }}</td>
-                <th>{{ row.visitor.getDateVisit |date('d-m-Y H:i:s')}}</th>
+                <td class="text_table_b">{{ row.visitor.getSName }}</td>
+                <td class="text_table">{{ row.visitor.getFName }}</td>
+                <td class="text_table">{{ row.visitor.getTName }}</td>
+                <td class="text_table">{{ row.typeName }}</td>
+                <td class="text_table">{{ row.docType }}</td>
+                <td class="text_table">{{ row.visitor.getDocNum }}</td>
+                <th class="text_table">{{ row.visitor.getDateVisit |date('d-m-Y H:i:s')}}</th>
                 <th><a type="button" class="btn btn-danger" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редагувати</a></th>
             </tr>
         {% endfor %}

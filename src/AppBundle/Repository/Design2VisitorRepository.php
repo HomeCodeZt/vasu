@@ -27,7 +27,7 @@ class Design2VisitorRepository extends EntityRepository
        $qb =  $this->createQueryBuilder('d')
             ->select('v as visitor, f.number as fileNumber ,tv.typeName as typeName ,dc.type as docType')
             ->innerJoin('AppBundle:Visitor', 'v', 'WITH', 'v.id = d.visitorId')
-            ->innerJoin('AppBundle:File', 'f', 'WITH', 'f.id = v.typeDocId')
+            ->innerJoin('AppBundle:File', 'f', 'WITH', 'f.id = v.typeFileId')
             ->innerJoin('AppBundle:TypeVisitor', 'tv', 'WITH', 'tv.id = v.typeVisitorId')
              ->innerJoin('AppBundle:Document', 'dc', 'WITH', 'dc.id = v.typeDocId');
         if($docNum){

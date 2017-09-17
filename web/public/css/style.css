@@ -1,23 +1,25 @@
 .header{
-    height: 180px;
+    height: 140px;
     background-color: #286090;
     margin-bottom: 20px;
 }
 
 .logo{
-    padding-top: 15px;
+    
+    
+    padding-top: 11px;
 }
 
 .logo_text{
     text-transform: uppercase;
-    padding-top: 50px;
+    padding-top: 40px;
     color: #FFFF00;
     background: -webkit-gradient(linear, left top, left bottom, from(#FFFF00), to(#F3BE00));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
     font-family: "Source Sans Pro", sans-serif;
-    font-size: 2,5em;
+    font-size: 2em;
     font-weight: 900;
     position: relative;
 }
@@ -38,4 +40,11 @@
 .footer_clock{
     font-weight:bold;
     color: #F6D100;
+}
+.text_table{
+text-align: left;
+}
+.text_table_b{
+    text-align: left;
+    font-weight: bold;
 }

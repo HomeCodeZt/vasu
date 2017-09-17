@@ -1,3 +1,10 @@
+jQuery.fn.reset = function () {
+    $(this).each (function() { this.reset(); });
+}
+
+$('#clear').reset();
+
+
 function clock() {
     var d = new Date();
     var month_num = d.getMonth()
@@ -27,59 +34,64 @@ function clock() {
 
 function ajaxSearch(el) {
    var string = $(el).val();
-   var filed = $(el).attr('data-field');  
-    $.ajax({
-        type: "POST",
-        dataType: 'json',
-        url: "/ajax-search",
-        data: {
-            'string':string,
-            'field': filed
-        },
-        async: true
-    })
-        .done(function (response) {
+    if (string.length >1){
 
-            if(response.result == 1){
-                var phrase = [];
-                for (var i = 0; response.content.length; i++  ){
-                    var name = response.content[i];
-                    if(name != undefined){
-                        phrase[i] = name.phrase;
-                    }else {
-                        break;
+        var filed = $(el).attr('data-field');
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "/ajax-search",
+            data: {
+                'string':string,
+                'field': filed
+            },
+            async: true
+        })
+            .done(function (response) {
+
+                if(response.result == 1){
+                    var phrase = [];
+                    for (var i = 0; response.content.length; i++  ){
+                        var name = response.content[i];
+                        if(name != undefined){
+                            phrase[i] = name.phrase;
+                        }else {
+                            break;
+                        }
                     }
                 }
-            }
 
-            $('#appbundle_visitor_sName').autocomplete(
-                {
-                    source: phrase
-                }
-            );
+                $('#appbundle_visitor_sName').autocomplete(
+                    {
+                        source: phrase
+                    }
+                );
 
-            $('#appbundle_visitor_fName').autocomplete(
-                {
-                    source: phrase
-                }
-            );
+                $('#appbundle_visitor_fName').autocomplete(
+                    {
+                        source: phrase
+                    }
+                );
 
-            $('#appbundle_visitor_tName').autocomplete(
-                {
-                    source: phrase
-                }
-            );
+                $('#appbundle_visitor_tName').autocomplete(
+                    {
+                        source: phrase
+                    }
+                );
 
-            $('#searchSName').autocomplete(
-                {
-                    source: phrase
-                }
-            );
+                $('#searchSName').autocomplete(
+                    {
+                        source: phrase
+                    }
+                );
 
 
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log('Error : ' + errorThrown);
-        });
- 
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log('Error : ' + errorThrown);
+            });
+
+
+    }
+
 }
