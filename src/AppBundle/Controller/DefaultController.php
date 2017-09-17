@@ -40,6 +40,8 @@ class DefaultController extends Controller
         $fileNumber = $request->get('fileNum');
         $dateVisit = $request->get('dateVisit');
 
+        $message = false;
+
         if($form->isSubmitted()){
             
             $file = $em->getRepository('AppBundle:File')->findOneBy(['number'=>$fileNumber]);
@@ -75,12 +77,14 @@ class DefaultController extends Controller
             $em->persist($design2visitor);
             $em->flush();
 
+            $message = 'Збережено !!!';
         }
         
         $documents = $em->getRepository('AppBundle:Document')->findAll();
         $typeVisitors = $em->getRepository('AppBundle:TypeVisitor')->findAll();
         
         $templateParams = [
+            'message'=>$message,
             'form' => $form->createView(),
             'documents'=>$documents,
             'typeVisitors' =>$typeVisitors,

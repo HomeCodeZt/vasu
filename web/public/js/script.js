@@ -95,3 +95,12 @@ function ajaxSearch(el) {
     }
 
 }
+$( document ).ready(function() {
+    var sc = $('#save');
+    if(sc.length > 0){
+        $('#appbundle_visitor_sName').val('');
+        $('#appbundle_visitor_tName').val('');
+        $('#appbundle_visitor_fName').val('');
+        alert('Збережено !!!')
+    }
+});
