@@ -159,6 +159,7 @@ class DefaultController extends Controller
             $currentFile = $em->getRepository('AppBundle:File')->find($visitor->getTypeFileId());
             
             $params = [
+                'message'=> false,
                 'form'=>$form->createView(),
                 'visitor' => $visitor,
                 'documents' => $documents,
