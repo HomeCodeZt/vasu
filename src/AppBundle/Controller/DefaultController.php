@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\DependencyInjection\UserManager\UserKeeper;
 use AppBundle\Entity\Design2Visitor;
 use AppBundle\Entity\File;
 use AppBundle\Entity\Visitor;
@@ -21,6 +22,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+
+        if(!$this->get('user_keep')->isLogged()){
+            return $this->redirectToRoute('login');
+        }
+
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
 
@@ -116,6 +122,11 @@ class DefaultController extends Controller
     }
     
     public function editAction(Request $request,$id){
+
+        if(!$this->get('user_keep')->isLogged()){
+            return $this->redirectToRoute('login');
+        }
+
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
         $visitor = $em->getRepository('AppBundle:Visitor')->find($id);
@@ -279,5 +290,19 @@ class DefaultController extends Controller
            $params[$key] =  mb_convert_encoding($string,"windows-1251","utf-8");
         }
         return $params;
+    }
+    
+    
+    public  function loginAction(Request $request){
+        $login = $request->get('login');
+        $pass  = $request->get('pass');
+        /** @var UserKeeper $userKeepService */
+        $userKeepService =  $this->get('user_keep');
+        $result = $userKeepService->initLogin($login,$pass);
+        if($result){
+            return $this->redirectToRoute('main_page');
+        }else{
+            return $this->render('default/login.html.twig',[]);
+        }
     }
 }

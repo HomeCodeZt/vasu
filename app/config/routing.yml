@@ -20,4 +20,8 @@ csv_export:
     path: /export/
     defaults: {_controller: AppBundle:Default:export}
 
+login:
+    path: /login/
+    defaults: {_controller: AppBundle:Default:login}
+
 
