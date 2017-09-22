@@ -1,3 +1,7 @@
+.body {
+    height:100%;
+}
+
 .header{
     height: 140px;
     background-color: #286090;
@@ -5,8 +9,6 @@
 }
 
 .logo{
-    
-    
     padding-top: 11px;
 }
 
@@ -30,12 +32,14 @@
     width: 50%;
 }
 .footer {
+    margin-top: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     color:#e4d21e;
     height: 55px;
-    margin-top:110px;
     background: #215990;
-    position: relative;
-    padding-top: 10px;
+
 }
 .footer_clock{
     font-weight:bold;
@@ -47,4 +51,15 @@ text-align: left;
 .text_table_b{
     text-align: left;
     font-weight: bold;
+}
+
+.login_form{
+    margin-top: 100px;
+}
+.export{
+    margin-bottom: 100px;
+}
+.go_home{
+    font-weight: bold;
+    float:left;
 }
