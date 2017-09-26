@@ -1,65 +1,9 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
- {% block header %}   {% endblock %}
     <h2 class="text-center">Учасник судового процесу</h2>
     {% include('default/form_visitor.html.twig') %}
     <hr>
-    <h2 class="text-center">Пошук</h2>
-
-    <form class="form-inline text-center" method="post" action="">
-        <div class="form-group">
-            <input class="form-control" type="text" name="searchDocNum" value="" placeholder="По номеру справи">
-        </div>
-        <div class="form-group">
-            <input id="searchSName" class="form-control" type="text" name="searchSName" value="" placeholder="По прізвищу" data-field="s_name" oninput="ajaxSearch(this)">
-        </div>
-        <input type="text" class="form-control" id="datetimepicker4" name="searchDateStart" value="" placeholder="По даті початок">
-        <input type="text" class="form-control" id="datetimepicker5" name="searchDateEnd" value="" placeholder="По даті кінець">
-        <input class="btn btn-primary" type="submit" value="Пошук">
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker4').datetimepicker({pickTime: false, language: 'uk'});
-                $('#datetimepicker5').datetimepicker({pickTime: false, language: 'uk'});
-                $('#appbundle_visitor_dateVisit').datetimepicker({pickTime: true, language: 'uk'});
-            });
-        </script>
-    </form>
-
-    <hr>
-    <h2 class="text-center">Результат пошуку</h2>
-    {% if searchResult != null %}
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>Номер справи</th>
-        <th>Прізвище</th>
-        <th>Ім'я</th>
-        <th>По батькові</th>
-        <th>Учасник</th>
-        <th>Документ</th>
-        <th>Номер документа</th>
-        <th>Дата</th>
-        <th>Дія</th>
-
-    </tr>
-    </thead>
-        {% for row in searchResult %}
-            <tr>
-            <td>{{ row.fileNumber }}</td>
-                <td class="text_table_b">{{ row.visitor.getSName }}</td>
-                <td class="text_table">{{ row.visitor.getFName }}</td>
-                <td class="text_table">{{ row.visitor.getTName }}</td>
-                <td class="text_table">{{ row.typeName }}</td>
-                <td class="text_table">{{ row.docType }}</td>
-                <td class="text_table">{{ row.visitor.getDocNum }}</td>
-                <th class="text_table">{{ row.visitor.getDateVisit |date('d-m-Y H:i:s')}}</th>
-                <th><a type="button" class="btn btn-danger" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редагувати</a></th>
-            </tr>
-        {% endfor %}
-    </table>
-    <div class="form-group export">
-        <a type="button" class="btn btn-success" href="{{ url('csv_export') }}">Експорт даних</a>
-        </div>
+    {% if user.isRoot == true %}
+        {% include ('default/search_form.html.twig') %}
     {% endif %}
 {% endblock %}

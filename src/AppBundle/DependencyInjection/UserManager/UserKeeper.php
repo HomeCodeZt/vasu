@@ -2,6 +2,7 @@
 
 namespace AppBundle\DependencyInjection\UserManager;
 
+use AppBundle\Entity\Users;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -19,6 +20,8 @@ class UserKeeper
     private $session;
 
     private $isLogin = false;
+    /** @var  Users */
+    private $user;
 
     public function  __construct(EntityManager $entityManager,Session $session)
     {
@@ -32,7 +35,8 @@ class UserKeeper
         if($login && $pass){
             $user = $this->entityManager->getRepository('AppBundle:Users')->findOneBy(['login'=>$login,'pass'=>$pass]);
             if($user){
-                $this->session->set(self::LOGIN,true);
+                $this->user = $user;
+                $this->session->set(self::LOGIN,$user->getId());
                 return true;
             }else{
                 return false;
@@ -45,8 +49,9 @@ class UserKeeper
     }
 
     public function init(){
-       $result =  $this->session->get(self::LOGIN);
-        if($result){
+        $userID =  $this->session->get(self::LOGIN);
+        if($userID){
+            $this->user = $this->entityManager->getRepository('AppBundle:Users')->find($userID);
             $this->isLogin = true;
         }
     }
@@ -57,6 +62,18 @@ class UserKeeper
     public function isLogged()
     {
         return $this->isLogin;
+    }
+
+    /**
+     * @return Users
+     */
+    public function getCurrentUser(){
+        return $this->user;
+    }
+    
+    public function logout(){
+        $this->isLogin = false;
+        $this->session->set(self::LOGIN,false);
     }
 
 }

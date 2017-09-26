@@ -21,8 +21,8 @@ class Design2VisitorRepository extends EntityRepository
      * @return array
      */
     public  function search($docNum,$sName,$startDate,$endDate){
-        
-        $params = [];
+
+       $params = [];
         
        $qb =  $this->createQueryBuilder('d')
             ->select('v as visitor, f.number as fileNumber ,tv.typeName as typeName ,dc.type as docType')

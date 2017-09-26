@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Сторінка не знайдена</h1>
+    {% if message is defined %}
+        <h1>{{ message }}</h1>
+    {% else %}
+        <h1>Сторінка не знайдена</h1>
+    {% endif %}
 {% endblock %}

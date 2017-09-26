@@ -35,8 +35,13 @@ class Users
      */
     private $pass;
 
-    
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="access", type="string", length=10)
+     */
+    private $access;
 
     /**
      * Get id
@@ -95,6 +100,33 @@ class Users
     {
         return $this->pass;
     }
+
+    /**
+     * @param string $access
+     */
+    public function setAccess($access)
+    {
+        $this->access = $access;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccess()
+    {
+        return $this->access;
+    }
     
+    
+    public function isRoot(){
+        
+        if($this->access == 'root'){
+            $result = true;
+        }else{
+            $result = false;
+        }
+        
+        return $result;
+    }
 }
 
