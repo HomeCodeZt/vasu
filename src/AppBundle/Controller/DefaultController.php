@@ -25,6 +25,8 @@ class DefaultController extends Controller
         $userKeep = $this->get('user_keep');
         if (!$userKeep->isLogged()) {
             return $this->redirectToRoute('login');
+        }elseif ($userKeep->getCurrentUser()->isRoot()){
+            return $this->redirectToRoute('admin_form');
         }
 
         /** @var EntityManager $em */
@@ -244,6 +246,9 @@ class DefaultController extends Controller
         $userKeep = $this->get('user_keep');
         if (!$userKeep->isLogged()) {
             return $this->redirectToRoute('login');
+        }
+        if(!$userKeep->getCurrentUser()->isRoot()){
+            return $this->redirectToRoute('main_page');
         }
 
         /** @var EntityManager $em */
