@@ -260,7 +260,9 @@ class DefaultController extends Controller
 
         if ($request->get('searchDocNum') || $request->get('searchSName') || $request->get('searchDateStart')) {
             $searchResult = $this->searchAction($request, true);
-            $this->createCsv($searchResult);
+            if($searchResult){
+                $this->createCsv($searchResult);
+            }
         }
 
         $documentId = $request->get('documentId');
@@ -359,7 +361,9 @@ class DefaultController extends Controller
         }
 
         if ($userKeep->getCurrentUser()->isRoot()) {
-            $this->createCsv($result);
+            if($result){
+                $this->createCsv($result);
+            }
         }
 
         $templateParams = [
