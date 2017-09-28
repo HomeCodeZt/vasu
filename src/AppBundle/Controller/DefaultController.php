@@ -27,72 +27,74 @@ class DefaultController extends Controller
             return $this->redirectToRoute('login');
         }elseif ($userKeep->getCurrentUser()->isRoot()){
             return $this->redirectToRoute('admin_form');
+        }else{
+            return $this->redirectToRoute('search');
         }
 
-        /** @var EntityManager $em */
-        $em = $this->get('doctrine.orm.entity_manager');
-
-        $form = $this->createForm(VisitorType::class, new Visitor());
-
-        $form->handleRequest($request);
-
-        $documentId = $request->get('documentId');
-        $typeVisitorId = $request->get('typeVisitorId');
-        $fileNumber = $request->get('fileNum');
-        $dateVisit = $request->get('dateVisit');
-
-        $message = false;
-
-        if ($form->isSubmitted()) {
-
-            $file = $em->getRepository('AppBundle:File')->findOneBy(['number' => $fileNumber]);
-            if ($file == null) {
-                $file = new File();
-                $file->setNumber($fileNumber);
-                $file->setDescription('');
-                $em->persist($file);
-                $em->flush();
-            }
-
-            /** @var Visitor $visitor */
-            $visitor = $form->getData();
-            $dateVisit = new \DateTime(date($dateVisit));
-            $visitor->setDateVisit($dateVisit);
-            $visitor->setTypeFileId($file->getId());
-            $visitor->setTypeVisitorId($typeVisitorId);
-            if ($visitor->getTName() == null) {
-                $visitor->setTName(' ');
-            }
-            $visitor->setTypeDocId($documentId);
-
-            $em->persist($visitor);
-            $em->flush();
-
-
-            //Таблица связей
-            $design2visitor = new Design2Visitor();
-            $design2visitor->setVisitorId($visitor->getId());
-            $design2visitor->setFileId($file->getId());
-            $design2visitor->setDateCreated($visitor->getDateVisit());
-
-            $em->persist($design2visitor);
-            $em->flush();
-
-            $message = 'Збережено!';
-        }
-
-        $documents = $em->getRepository('AppBundle:Document')->findAll();
-        $typeVisitors = $em->getRepository('AppBundle:TypeVisitor')->findAll();
-
-        $templateParams = [
-            'message' => $message,
-            'form' => $form->createView(),
-            'documents' => $documents,
-            'typeVisitors' => $typeVisitors,
-            'user' => $userKeep->getCurrentUser(),
-        ];
-
-        return $this->render('default/index.html.twig', $templateParams);
+//        /** @var EntityManager $em */
+//        $em = $this->get('doctrine.orm.entity_manager');
+//
+//        $form = $this->createForm(VisitorType::class, new Visitor());
+//
+//        $form->handleRequest($request);
+//
+//        $documentId = $request->get('documentId');
+//        $typeVisitorId = $request->get('typeVisitorId');
+//        $fileNumber = $request->get('fileNum');
+//        $dateVisit = $request->get('dateVisit');
+//
+//        $message = false;
+//
+//        if ($form->isSubmitted()) {
+//
+//            $file = $em->getRepository('AppBundle:File')->findOneBy(['number' => $fileNumber]);
+//            if ($file == null) {
+//                $file = new File();
+//                $file->setNumber($fileNumber);
+//                $file->setDescription('');
+//                $em->persist($file);
+//                $em->flush();
+//            }
+//
+//            /** @var Visitor $visitor */
+//            $visitor = $form->getData();
+//            $dateVisit = new \DateTime(date($dateVisit));
+//            $visitor->setDateVisit($dateVisit);
+//            $visitor->setTypeFileId($file->getId());
+//            $visitor->setTypeVisitorId($typeVisitorId);
+//            if ($visitor->getTName() == null) {
+//                $visitor->setTName(' ');
+//            }
+//            $visitor->setTypeDocId($documentId);
+//
+//            $em->persist($visitor);
+//            $em->flush();
+//
+//
+//            //Таблица связей
+//            $design2visitor = new Design2Visitor();
+//            $design2visitor->setVisitorId($visitor->getId());
+//            $design2visitor->setFileId($file->getId());
+//            $design2visitor->setDateCreated($visitor->getDateVisit());
+//
+//            $em->persist($design2visitor);
+//            $em->flush();
+//
+//            $message = 'Збережено!';
+//        }
+//
+//        $documents = $em->getRepository('AppBundle:Document')->findAll();
+//        $typeVisitors = $em->getRepository('AppBundle:TypeVisitor')->findAll();
+//
+//        $templateParams = [
+//            'message' => $message,
+//            'form' => $form->createView(),
+//            'documents' => $documents,
+//            'typeVisitors' => $typeVisitors,
+//            'user' => $userKeep->getCurrentUser(),
+//        ];
+//
+//        return $this->render('default/index.html.twig', $templateParams);
     }
 
     public function editAction(Request $request, $id)
