@@ -76,13 +76,27 @@ class Visitor
      * @ORM\Column(name="type_file_id", type="integer")
      */
     private $typeFileId;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="doc_description", type="string", length=200)
+     */
 
+    private $docDescription;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="note", type="string", length=200)
+     */
+
+    private $note;
 
     /**
      * Get id
      *
      * @return integer 
      */
+
     public function getId()
     {
         return $this->id;
@@ -261,7 +275,37 @@ class Visitor
     public function getTypeFileId()
     {
         return $this->typeFileId;
-    }   
-    
-    
+    }
+
+    /**
+     * @return string
+     */
+    public function getDocDescription()
+    {
+        return $this->docDescription;
+    }
+
+    /**
+     * @param string $docDescription
+     */
+    public function setDocDescription($docDescription)
+    {
+        $this->docDescription = $docDescription;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+     * @param string $note
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }
 }

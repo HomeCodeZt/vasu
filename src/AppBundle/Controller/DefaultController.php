@@ -76,7 +76,7 @@ class DefaultController extends Controller
             $em->persist($design2visitor);
             $em->flush();
 
-            $message = 'Збережено !!!';
+            $message = 'Збережено!';
         }
 
         $documents = $em->getRepository('AppBundle:Document')->findAll();
@@ -376,14 +376,14 @@ class DefaultController extends Controller
         $file = new \SplFileObject($file, 'w+');
         $paramsTitle = ['Учасники судового процесу Вищого адміністративного суду України'];
         $paramsEmpty = [
-            '---',
-            '----------',
-            '----------',
-            '----------',
-            '----------',
-            '----------',
-            '----------',
-            '----------',
+            '-----------------------',
+            '-----------------------',
+            '-----------------------',
+            '-----------------------',
+            '-----------------------',
+            '-----------------------',
+            '-----------------------',
+            '-----------------------',
         ];
         $paramsHeader = [
             'Номер справи',

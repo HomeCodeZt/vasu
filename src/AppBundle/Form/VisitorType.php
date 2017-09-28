@@ -22,6 +22,8 @@ class VisitorType extends AbstractType
             ->add('sName',TextType::class,  ['required' => true,'attr' => ['class' => 'form-control', 'data-field' => 's_name']])
             ->add('tName',TextType::class,  ['required' => false,'attr' => ['class' => 'form-control', 'data-field' => 't_name']])
             ->add('docNum',TextType::class, ['required' => true,'attr' => ['class' => 'form-control']])
+            ->add('docDescription',TextType::class, ['required' => false,'attr' => ['class' => 'form-control']])
+            ->add('note',TextType::class, ['required' => false,'attr' => ['class' => 'form-control']])
             ->add('submit', SubmitType::class,['label' => 'Додати до списку']);
     }
     

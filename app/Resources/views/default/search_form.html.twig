@@ -30,8 +30,10 @@
         <th>По батькові</th>
         <th>Учасник</th>
         <th>Документ</th>
-        <th>Номер документа</th>
-        <th>Дата</th>
+        <th>Номер документу</th>
+        <th>Дата видачі і назва органу</th>
+        <th>Примітка</th>
+        <th>Дата реєстрації</th>
     {% if user.isRoot %}
         <th>Дія</th>
     {% endif %}
@@ -40,13 +42,15 @@
     </thead>
     {% for row in searchResult %}
         <tr>
-            <td>{{ row.fileNumber }}</td>
+            <td class="text_table">{{ row.fileNumber }}</td>
             <td class="text_table_b">{{ row.visitor.getSName }}</td>
             <td class="text_table">{{ row.visitor.getFName }}</td>
             <td class="text_table">{{ row.visitor.getTName }}</td>
             <td class="text_table">{{ row.typeName }}</td>
             <td class="text_table">{{ row.docType }}</td>
             <td class="text_table">{{ row.visitor.getDocNum }}</td>
+            <td class="text_table">{{ row.visitor.getDocDescription}}</td>
+            <td class="text_table">{{ row.visitor.getNote }}</td>
             <th class="text_table">{{ row.visitor.getDateVisit |date('d-m-Y H:i:s')}}</th>
             {% if user.isRoot %}
                 <th><a type="button" class="btn btn-danger" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редагувати</a></th>
@@ -55,7 +59,7 @@
     {% endfor %}
 </table>
     {% if user.isRoot %}
-        <div class="form-group export">
+        <div class="form-group">
             <a type="button" class="btn btn-success" href="{{ url('csv_export') }}">Експорт даних</a>
         </div>
     {% endif %}

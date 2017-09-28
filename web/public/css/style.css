@@ -13,15 +13,16 @@
 }
 
 .logo_text{
+    text-align: center;
     text-transform: uppercase;
-    padding-top: 40px;
+    padding-top: 35px;
     color: #FFFF00;
     background: -webkit-gradient(linear, left top, left bottom, from(#FFFF00), to(#F3BE00));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
     font-family: "Source Sans Pro", sans-serif;
-    font-size: 2em;
+    font-size: 2.5em;
     font-weight: 900;
     position: relative;
 }
@@ -32,7 +33,7 @@
     width: 50%;
 }
 .footer {
-    margin-top: 10px;
+    padding-top: 10px;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -62,4 +63,7 @@ text-align: left;
 .go_home{
     font-weight: bold;
     float:left;
+}
+.go_out{
+    float:right;
 }
