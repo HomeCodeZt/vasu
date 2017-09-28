@@ -7,3 +7,8 @@ services:
        class: AppBundle\DependencyInjection\UserManager\UserKeeper
        arguments: ['@doctrine.orm.entity_manager','@session']
 
+     export_service:
+       class: AppBundle\DependencyInjection\ExportService\ExportService
+     search_service:
+       class: AppBundle\DependencyInjection\SearchService\SearchService
+       arguments: ['@doctrine.orm.entity_manager']

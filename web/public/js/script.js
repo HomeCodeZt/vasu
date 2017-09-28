@@ -101,7 +101,7 @@ $( document ).ready(function() {
         $('#appbundle_visitor_sName').val('');
         $('#appbundle_visitor_tName').val('');
         $('#appbundle_visitor_fName').val('');
-        $('#appbundle_visitor_doc_description').val('');
+        $('#appbundle_visitor_docDescription').val('');
         $('#appbundle_visitor_note').val('');
         alert('Збережено !!!')
     }
