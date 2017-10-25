@@ -51,6 +51,8 @@
             <td class="text_table">{{ row.visitor.getDocNum }}</td>
             <td class="text_table">{{ row.visitor.getDocDescription}}</td>
             <td class="text_table">{{ row.visitor.getNote }}</td>
+            <td class="text_table">{{ row.visitor.getDocDescription}}</td>
+            <td class="text_table">{{ row.visitor.getNote }}</td>
             <th class="text_table">{{ row.visitor.getDateVisit |date('d-m-Y H:i:s')}}</th>
             {% if user.isRoot %}
                 <th><a type="button" class="btn btn-danger" href="{{ url('edit_page',{'id':row.visitor.getId}) }}">Редагувати</a></th>

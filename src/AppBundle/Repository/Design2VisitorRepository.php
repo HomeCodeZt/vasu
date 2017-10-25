@@ -29,7 +29,8 @@ class Design2VisitorRepository extends EntityRepository
             ->innerJoin('AppBundle:Visitor', 'v', 'WITH', 'v.id = d.visitorId')
             ->innerJoin('AppBundle:File', 'f', 'WITH', 'f.id = v.typeFileId')
             ->innerJoin('AppBundle:TypeVisitor', 'tv', 'WITH', 'tv.id = v.typeVisitorId')
-             ->innerJoin('AppBundle:Document', 'dc', 'WITH', 'dc.id = v.typeDocId');
+            ->innerJoin('AppBundle:Document', 'dc', 'WITH', 'dc.id = v.typeDocId');
+
         if($docNum){
             $qb->where('f.number = :docNum');
             $params['docNum'] = $docNum;
@@ -44,7 +45,8 @@ class Design2VisitorRepository extends EntityRepository
             $params['starDate'] = $startDate->format('Y-m-d');
             $params['endDate'] = $endDate->format('Y-m-d 23:59:59');
         }
-        
+        $qb->orderBy('d.dateCreated', 'DESC');
+
       return  $qb->setParameters($params)
             ->getQuery()
             ->getResult();

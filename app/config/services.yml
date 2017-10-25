@@ -9,6 +9,10 @@ services:
 
      export_service:
        class: AppBundle\DependencyInjection\ExportService\ExportService
+
      search_service:
        class: AppBundle\DependencyInjection\SearchService\SearchService
        arguments: ['@doctrine.orm.entity_manager']
+     events_log_service:
+      class: AppBundle\DependencyInjection\EventsLogService\EventsLogService
+      arguments: ['@doctrine.orm.entity_manager']

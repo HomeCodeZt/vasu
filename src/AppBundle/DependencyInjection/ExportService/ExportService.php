@@ -28,6 +28,8 @@ class ExportService
             '-----------------------',
             '-----------------------',
             '-----------------------',
+            '-----------------------',
+            '-----------------------',
         ];
         $paramsHeader = [
             'Номер справи',
@@ -37,6 +39,8 @@ class ExportService
             'Учасник',
             'Документ',
             'Номер документа',
+            'Дата видачі і назва органу',
+            'Примітка',
             'Дата',
         ];
 
@@ -59,6 +63,8 @@ class ExportService
                 $typeName,
                 $docType,
                 $visitor->getDocNum(),
+                $visitor->getDocDescription(),
+                $visitor->getNote(),
                 $visitor->getDateVisit()->format('Y-m-d H:i:s'),
             ];
             $file->fputcsv($this->convertorUtf8toWin1251($params), ";");

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\DependencyInjection\EventsLogService\EventsLogService;
 use AppBundle\DependencyInjection\ExportService\ExportService;
 use AppBundle\DependencyInjection\SearchService\SearchService;
 use AppBundle\Entity\Design2Visitor;
@@ -88,6 +89,10 @@ class AdminController extends Controller
             $em->persist($design2visitor);
             $em->flush();
             $message = 'Збережено !!!';
+            
+            /** @var EventsLogService $eventsLogService */
+            $eventsLogService =  $this->get('events_log_service');
+            $eventsLogService->saveEvent2DB($design2visitor->getId(),$userKeep->getCurrentUser()->getId(),EventsLogService::CREATE_EVENT);
         }
 
         $documents = $em->getRepository('AppBundle:Document')->findAll();

@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\DependencyInjection\EventsLogService\EventsLogService;
+use AppBundle\Entity\Design2Visitor;
 use AppBundle\Entity\File;
 use AppBundle\Entity\Visitor;
 use AppBundle\Form\VisitorType;
@@ -57,12 +59,22 @@ class DefaultController extends Controller
                 $dateVisit = $request->get('dateVisit');
 
                 $file = $em->getRepository('AppBundle:File')->findOneBy(['number' => $fileNumber]);
+
                 if ($file == null) {
                     $file = new File();
                     $file->setNumber($fileNumber);
                     $file->setDescription('');
                     $em->persist($file);
-                    $em->flush();
+                    $em->flush($file);
+
+                    /** @var Design2Visitor $design2visitor */
+                    $design2visitor = $em->getRepository('AppBundle:Design2Visitor')->findOneBy(['visitorId'=>$visitor->getId()]);
+                    $design2visitor->setFileId($file->getId());
+                    $em->persist($design2visitor);
+                    $em->flush($design2visitor);
+                }else{
+                    /** @var Design2Visitor $design2visitor */
+                    $design2visitor = $em->getRepository('AppBundle:Design2Visitor')->findOneBy(['visitorId'=>$visitor->getId(),'fileId'=>$file->getId()]);
                 }
 
                 /** @var Visitor $visitor */
@@ -75,7 +87,10 @@ class DefaultController extends Controller
 
                 if($userKeep->getCurrentUser()->isRoot()){
                     $em->persist($visitor);
-                    $em->flush();
+                    $em->flush($visitor);
+                    /** @var EventsLogService $eventsLogService */
+                    $eventsLogService =  $this->get('events_log_service');
+                    $eventsLogService->saveEvent2DB($design2visitor->getId(),$userKeep->getCurrentUser()->getId(),EventsLogService::EDIT_EVENT);
                 }
 
                 return $this->redirectToRoute('main_page');
