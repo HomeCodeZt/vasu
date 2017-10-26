@@ -49,4 +49,8 @@ class SearchService
         return $result;
     }
     
+    public function gelEventsByUserId($id){
+        return $this->entityManager->getRepository('AppBundle:EventsLog')->getDataForLoggerById($id);
+    }
+    
 }

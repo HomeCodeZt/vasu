@@ -30,6 +30,9 @@
                 </div>
             </div>
             {% if user is defined %}
+                {% if user.isSu %}
+                    {% include ('default/events_log_button.html.twig') %}
+                {% endif %}
                 {% include ('default/logout.html.twig') %}
             {% endif %}
             <div class="row">
@@ -43,6 +46,11 @@
 
                    <span class="footer_clock" id="doc_time"></span>
                         <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker4').datetimepicker({pickTime: false, language: 'uk'});
+                                        $('#datetimepicker5').datetimepicker({pickTime: false, language: 'uk'});
+                                        $('#appbundle_visitor_dateVisit').datetimepicker({pickTime: true, language: 'uk'});
+                                    });
                             clock();
                         </script>
                 </div>

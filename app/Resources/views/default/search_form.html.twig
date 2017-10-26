@@ -6,16 +6,8 @@
     <div class="form-group">
         <input id="searchSName" class="form-control" type="text" name="searchSName" value="" placeholder="По прізвищу" data-field="s_name" oninput="ajaxSearch(this)">
     </div>
-    <input type="text" class="form-control" id="datetimepicker4" name="searchDateStart" value="" placeholder="По даті початок">
-    <input type="text" class="form-control" id="datetimepicker5" name="searchDateEnd" value="" placeholder="По даті кінець">
+    {% include('default/form_date.html.twig') %}
     <input class="btn btn-primary" type="submit" value="Пошук">
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker4').datetimepicker({pickTime: false, language: 'uk'});
-            $('#datetimepicker5').datetimepicker({pickTime: false, language: 'uk'});
-            $('#appbundle_visitor_dateVisit').datetimepicker({pickTime: true, language: 'uk'});
-        });
-    </script>
 </form>
 
 <hr>

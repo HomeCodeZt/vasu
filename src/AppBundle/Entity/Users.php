@@ -120,12 +120,25 @@ class Users
     
     public function isRoot(){
         
-        if($this->access == 'root'){
+        if($this->access == 'root' || $this->access == 'su'){
             $result = true;
         }else{
             $result = false;
         }
         
+        return $result;
+    }
+
+    /**
+     * SuperUser init
+     */
+    public function isSu(){
+        if($this->access == 'su'){
+            $result = true;
+        }else{
+            $result = false;
+        }
+
         return $result;
     }
 }

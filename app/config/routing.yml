@@ -36,4 +36,12 @@ logout:
     path: /logout/
     defaults: {_controller: AppBundle:Authentication:logout}
 
+log:
+    path: /log/
+    defaults: {_controller: AppBundle:Su:Log}
+
+log_export:
+    path: /log-export/
+    defaults: {_controller: AppBundle:Su:logExport}
+
 

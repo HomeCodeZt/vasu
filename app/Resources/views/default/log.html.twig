@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <form method="post" action="{{ url('log_export') }}">
+        <input type="text" name="id">
+        <input type="submit" value="Get Log by ID">
+    </form>
+    <hr>
+    <form method="post" action="{{ url('log_export') }}">
+        {% include('default/form_date.html.twig') %}
+        <input type="submit" value="Get Log by Date">
+    </form>
+
+    {% if result is defined %}
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Номер справи</th>
+        <th>Прізвище</th>
+        <th>Ім'я</th>
+        <th>По батькові</th>
+        <th>Оператор</th>
+        <th>Дата</th>
+    </tr>
+    </thead>
+        {% for row in result %}
+            <tr>
+            <td class="text_table">{{ row.number }}</td>
+            <td class="text_table_b">{{ row.sName }}</td>
+            <td class="text_table">{{ row.fName }}</td>
+            <td class="text_table">{{ row.tName }}</td>
+            <td class="text_table">{{ row.login }}</td>
+            <th class="text_table">{{ row.log.getDate |date('d-m-Y H:i:s')}}</th>
+            </tr>
+        {% endfor %}
+
+ </table>
+    {% endif %}
+
+{% endblock %}

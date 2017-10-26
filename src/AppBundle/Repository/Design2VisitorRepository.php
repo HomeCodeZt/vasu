@@ -70,6 +70,5 @@ class Design2VisitorRepository extends EntityRepository
          return $result = $connection->query($sql)->fetchAll();
 
     }
-
-
+    
 }
