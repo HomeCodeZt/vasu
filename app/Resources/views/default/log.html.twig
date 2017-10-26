@@ -15,21 +15,25 @@
 <table class="table table-hover">
     <thead>
     <tr>
+        <th>Номер учасника процесу</th>
         <th>Номер справи</th>
         <th>Прізвище</th>
         <th>Ім'я</th>
         <th>По батькові</th>
         <th>Оператор</th>
+        <th>Дiя</th>
         <th>Дата</th>
     </tr>
     </thead>
         {% for row in result %}
             <tr>
             <td class="text_table">{{ row.number }}</td>
+            <td class="text_table">{{ row.fileNumber }}</td>
             <td class="text_table_b">{{ row.sName }}</td>
             <td class="text_table">{{ row.fName }}</td>
             <td class="text_table">{{ row.tName }}</td>
             <td class="text_table">{{ row.login }}</td>
+            <td class="text_table">{{ row.log.getEventType }}</td>
             <th class="text_table">{{ row.log.getDate |date('d-m-Y H:i:s')}}</th>
             </tr>
         {% endfor %}

@@ -15,9 +15,10 @@ class EventsLogRepository extends EntityRepository
     public function getDataForLoggerById($id){
         $params = ['visitorId'=>$id];
         $qb =  $this->createQueryBuilder('l')
-            ->select('v.id as number , v.fName as fName, v.sName as sName ,v.tName as tName, u.login as login, l as log')
+            ->select('v.id as number , v.fName as fName, v.sName as sName ,v.tName as tName,f.number as fileNumber , u.login as login, l as log')
             ->innerJoin('AppBundle:Design2Visitor', 'd', 'WITH', 'l.d2visitorId = d.id')
             ->innerJoin('AppBundle:Visitor', 'v', 'WITH', 'v.id = d.visitorId')
+            ->innerJoin('AppBundle:File', 'f', 'WITH', 'v.typeFileId = f.id')
             ->innerJoin('AppBundle:Users', 'u', 'WITH', 'u.id = l.userId')
             ->where('v.id = :visitorId')
             ->setParameters($params)
