@@ -40,5 +40,9 @@
 
  </table>
     {% endif %}
-
+    {% if user.isRoot %}
+        <div class="form-group">
+            <a type="button" class="btn btn-success" href="{{ url('csv_export') }}">Експорт даних</a>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\DependencyInjection\ExportService\ExportService;
 use AppBundle\DependencyInjection\SearchService\SearchService;
 use AppBundle\Entity\Design2Visitor;
 use Doctrine\ORM\EntityManager;
@@ -31,7 +32,7 @@ class SearchController extends Controller
         if ($userKeep->getCurrentUser()->isRoot()) {
             if($result){
                 $exportService = $this->get('export_service');
-                $exportService->createCsv($result);
+                $exportService->createCsv($result,ExportService::FLAG_SEARCH);
             }
         }
 

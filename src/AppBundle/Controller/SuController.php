@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\DependencyInjection\ExportService\ExportService;
 use AppBundle\DependencyInjection\SearchService\SearchService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,29 +23,56 @@ class SuController extends Controller
     }
 
     public function logExportAction(Request $request){
+
+        $userKeep = $this->get('user_keep');
+        if (!$userKeep->isLogged()) {
+            return $this->redirectToRoute('login');
+        }
+        if(!$userKeep->getCurrentUser()->isRoot() && !$userKeep->getCurrentUser()->isSu()){
+            return $this->redirectToRoute('main_page');
+        }
+
         $id = $request->get('id');
         $startDate = $request->get('searchDateStart');
         $endDate = $request->get('searchDateEnd');
 
         if($id != null && $id > 0){
-            return $this->exportById($id);
+            return $this->exportById($id,$userKeep->getCurrentUser());
         }
 
-        if($startDate && $endDate){
-            return $this->exportByDate($startDate,$endDate);
+        if($startDate){
+            return $this->exportByDate($startDate,$endDate,$userKeep->getCurrentUser());
         }
 
         return $this->redirectToRoute('log');
     }
 
-    private function exportById($id){
+    /**
+     * @param $id
+     * @param $user
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function exportById($id,$user){
         /** @var SearchService $searchService */
         $searchService = $this->get('search_service');
         $result = $searchService->gelEventsByUserId($id);
-        return $this->render('default/log.html.twig',['result'=>$result]);
+        return $this->render('default/log.html.twig',['result'=>$result,'user'=>$user]);
     }
 
-    private function exportByDate($startDate, $endDate){
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param $user
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function exportByDate($startDate, $endDate,$user){
+        /** @var SearchService $searchService */
+        $searchService = $this->get('search_service');
+        /** @var ExportService $exportService */
+        $exportService = $this->get('export_service');
 
+        $result = $searchService->gelEventsByDate($startDate,$endDate);
+        $exportService->createCsv($result,ExportService::FLAG_LOG);
+        return $this->render('default/log.html.twig',['result'=>$result,'user'=>$user]);
     }
 }

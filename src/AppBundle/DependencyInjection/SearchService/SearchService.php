@@ -52,5 +52,17 @@ class SearchService
     public function gelEventsByUserId($id){
         return $this->entityManager->getRepository('AppBundle:EventsLog')->getDataForLoggerById($id);
     }
+
+    public function gelEventsByDate($dateStart,$dateEnd){
+        $dateStart = str_replace('.','-',$dateStart);
+        $dateStart = new \DateTime(date($dateStart));
+        if(!$dateEnd){
+            $dateEnd = new \DateTime('now');
+        }else{
+            $dateEnd = str_replace('.','-',$dateEnd);
+            $dateEnd = new \DateTime(date($dateEnd));
+        }
+        return $this->entityManager->getRepository('AppBundle:EventsLog')->getDataForLoggerDate($dateStart,$dateEnd);
+    }
     
 }

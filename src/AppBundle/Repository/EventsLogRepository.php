@@ -26,4 +26,21 @@ class EventsLogRepository extends EntityRepository
             ->getResult();
         return $qb;
     }
+
+    public function getDataForLoggerDate($dateStart,$dateEnd){
+        
+        $params = ['startDate'=>$dateStart,'endDate'=>$dateEnd];
+        $qb =  $this->createQueryBuilder('l')
+            ->select('v.id as number , v.fName as fName, v.sName as sName ,v.tName as tName,f.number as fileNumber , u.login as login, l as log')
+            ->innerJoin('AppBundle:Design2Visitor', 'd', 'WITH', 'l.d2visitorId = d.id')
+            ->innerJoin('AppBundle:Visitor', 'v', 'WITH', 'v.id = d.visitorId')
+            ->innerJoin('AppBundle:File', 'f', 'WITH', 'v.typeFileId = f.id')
+            ->innerJoin('AppBundle:Users', 'u', 'WITH', 'u.id = l.userId')
+            ->where('l.date >= :startDate')
+            ->andWhere('l.date <= :endDate')
+            ->setParameters($params)
+            ->getQuery()
+            ->getResult();
+        return $qb;
+    }
 }

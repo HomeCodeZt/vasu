@@ -44,7 +44,7 @@ class AdminController extends Controller
             if($searchResult){
                 /** @var ExportService $exportService */
                 $exportService = $this->get('export_service');
-                $exportService->createCsv($searchResult);
+                $exportService->createCsv($searchResult,ExportService::FLAG_SEARCH);
             }
         }
 
