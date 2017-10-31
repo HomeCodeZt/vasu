@@ -19,7 +19,7 @@ class SuController extends Controller
             return $this->redirectToRoute('main_page');
         }
 
-        return $this->render('default/log.html.twig',[]);
+        return $this->render('default/log.html.twig',['user'=>$userKeep->getCurrentUser()]);
     }
 
     public function logExportAction(Request $request){
