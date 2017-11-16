@@ -43,4 +43,19 @@ class EventsLogRepository extends EntityRepository
             ->getResult();
         return $qb;
     }
+
+    public function getEventsLogObject($id){
+        $params = ['visitorId'=>$id];
+        $qb =  $this->createQueryBuilder('l')
+            ->select('l')
+            ->innerJoin('AppBundle:Design2Visitor', 'd', 'WITH', 'l.d2visitorId = d.id')
+            ->innerJoin('AppBundle:Visitor', 'v', 'WITH', 'v.id = d.visitorId')
+            ->innerJoin('AppBundle:File', 'f', 'WITH', 'v.typeFileId = f.id')
+            ->innerJoin('AppBundle:Users', 'u', 'WITH', 'u.id = l.userId')
+            ->where('v.id = :visitorId')
+            ->setParameters($params)
+            ->getQuery()
+            ->getResult();
+        return $qb;
+    }
 }

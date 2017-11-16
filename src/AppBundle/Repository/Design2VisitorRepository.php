@@ -70,5 +70,25 @@ class Design2VisitorRepository extends EntityRepository
          return $result = $connection->query($sql)->fetchAll();
 
     }
+
+
+    /**
+     * @param $id
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public  function searchById($id){
+        $params = ['id'=>$id];
+        return  $this->createQueryBuilder('d')
+            ->select('v as visitor , f.number')
+            ->innerJoin('AppBundle:Visitor', 'v', 'WITH', 'v.id = d.visitorId')
+            ->innerJoin('AppBundle:File', 'f', 'WITH', 'f.id = v.typeFileId')
+            ->innerJoin('AppBundle:TypeVisitor', 'tv', 'WITH', 'tv.id = v.typeVisitorId')
+            ->innerJoin('AppBundle:Document', 'dc', 'WITH', 'dc.id = v.typeDocId')
+            ->where('d.id = :id')
+            ->setParameters($params)
+            ->getQuery()
+            ->getResult();
+
+    }
     
 }

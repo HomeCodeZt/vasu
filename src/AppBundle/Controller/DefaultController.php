@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+    /** @var  Visitor */
+    private $oldVisitor;
+    
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -43,14 +46,14 @@ class DefaultController extends Controller
         if (!$userKeep->isLogged()) {
             return $this->redirectToRoute('login');
         }
-
+        
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
         $visitor = $em->getRepository('AppBundle:Visitor')->find($id);
         if ($visitor) {
+            $this->oldVisitor = clone $visitor;
             $form = $this->createForm(VisitorType::class, $visitor);
             $form->handleRequest($request);
-
             if ($form->isSubmitted()) {
 
                 $documentId = $request->get('documentId');
@@ -90,7 +93,8 @@ class DefaultController extends Controller
                     $em->flush($visitor);
                     /** @var EventsLogService $eventsLogService */
                     $eventsLogService =  $this->get('events_log_service');
-                    $eventsLogService->saveEvent2DB($design2visitor->getId(),$userKeep->getCurrentUser()->getId(),EventsLogService::EDIT_EVENT);
+                    $eventsLogService->saveEvent2DB($design2visitor->getId(),$userKeep->getCurrentUser()->getId(),$this->oldVisitor,EventsLogService::EDIT_EVENT);
+                    $eventsLogService->saveEvent2DB($design2visitor->getId(),$userKeep->getCurrentUser()->getId(),null,EventsLogService::EDIT_EVENT);
                 }
 
                 return $this->redirectToRoute('main_page');
@@ -125,5 +129,5 @@ class DefaultController extends Controller
     {
         return $this->render('default/404.html.twig', []);
     }
-    
+
 }

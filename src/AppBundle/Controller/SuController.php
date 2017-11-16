@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\DependencyInjection\ExportService\ExportService;
 use AppBundle\DependencyInjection\SearchService\SearchService;
+use AppBundle\Entity\EventsLog;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -56,7 +57,15 @@ class SuController extends Controller
         /** @var SearchService $searchService */
         $searchService = $this->get('search_service');
         $result = $searchService->gelEventsByUserId($id);
-        return $this->render('default/log.html.twig',['result'=>$result,'user'=>$user]);
+        $eventsLogObject = $searchService->gelEventsLogObjectByUserId($id);
+        /**
+         * @var  $key
+         * @var EventsLog $eventLog
+         */
+        foreach ($eventsLogObject as $key =>$eventLog){
+            $eventsLogObject[$key] = $eventLog->getObject();
+        }
+        return $this->render('default/log.html.twig',['result'=>$result,'user'=>$user,'eventsLogObject'=>$eventsLogObject]);
     }
 
     /**

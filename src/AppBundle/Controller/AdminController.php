@@ -92,7 +92,7 @@ class AdminController extends Controller
             
             /** @var EventsLogService $eventsLogService */
             $eventsLogService =  $this->get('events_log_service');
-            $eventsLogService->saveEvent2DB($design2visitor->getId(),$userKeep->getCurrentUser()->getId(),EventsLogService::CREATE_EVENT);
+            $eventsLogService->saveEvent2DB($design2visitor->getId(),$userKeep->getCurrentUser()->getId(),null,EventsLogService::CREATE_EVENT);
         }
 
         $documents = $em->getRepository('AppBundle:Document')->findAll();

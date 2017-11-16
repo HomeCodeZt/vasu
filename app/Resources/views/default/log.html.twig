@@ -26,12 +26,13 @@
     </tr>
     </thead>
         {% for row in result %}
+            {% set visitor = row.log.getObject %}
             <tr>
-            <td class="text_table">{{ row.number }}</td>
-            <td class="text_table">{{ row.fileNumber }}</td>
-            <td class="text_table_b">{{ row.sName }}</td>
-            <td class="text_table">{{ row.fName }}</td>
-            <td class="text_table">{{ row.tName }}</td>
+            <td class="text_table">{{ visitor.getId }}</td>
+            <td class="text_table">{{ visitor.getTypeFileId }}</td>
+            <td class="text_table_b">{{ visitor.getsName }}</td>
+            <td class="text_table">{{ visitor.getfName }}</td>
+            <td class="text_table">{{ visitor.gettName }}</td>
             <td class="text_table">{{ row.login }}</td>
             <td class="text_table">{{ row.log.getEventType }}</td>
             <th class="text_table">{{ row.log.getDate |date('d-m-Y H:i:s')}}</th>

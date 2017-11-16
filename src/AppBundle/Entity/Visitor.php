@@ -308,4 +308,18 @@ class Visitor
     {
         $this->note = $note;
     }
+
+    public function  __clone()
+    {
+       $this->id = $this->getId();
+       $this->fName = $this->getFName();
+       $this->sName = $this->getSName();
+       $this->tName = $this->getTName();
+       $this->typeDocId = $this->getTypeDocId();
+       $this->typeFileId = $this->getTypeFileId();
+       $this->typeVisitorId = $this->getTypeVisitorId();
+       $this->dateVisit = $this->getDateVisit();
+       $this->docNum = $this->getDocNum();
+       $this->note = $this->getNote();
+    }
 }

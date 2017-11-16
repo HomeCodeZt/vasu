@@ -29,6 +29,7 @@ class AjaxController extends Controller
             $em = $this->get('doctrine.orm.entity_manager');
 
             $content = $em->getRepository('AppBundle:Design2Visitor')->searchBySName($phrase, $field);
+            $content = $this->cleanDuplicates($content);
             if (empty($content)) {
                 $result = 0;
             } else {
@@ -49,6 +50,23 @@ class AjaxController extends Controller
         } else {
             throw new BadRequestHttpException('XHR request expected');
         }
+    }
+
+    /**
+     * @param array $content
+     * @return array
+     */
+    private function cleanDuplicates(array  $content){
+        $temp = [];
+        foreach ($content as $row) {
+            $temp[] = $row['phrase'];
+        }
+        $temp = array_unique($temp);
+        $content = [];
+        foreach ($temp as $row){
+            $content[] = ['phrase'=>$row];
+        }
+        return $content;
     }
     
 }

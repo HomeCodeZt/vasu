@@ -49,6 +49,13 @@ class EventsLog
      */
     private $eventType;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="object", type="string", length=99999)
+     */
+    private $object;
+
 
     /**
      * Get id
@@ -150,5 +157,21 @@ class EventsLog
     public function getEventType()
     {
         return $this->eventType;
+    }
+
+    /**
+     * @param string $object
+     */
+    public function setObject($object)
+    {
+        $this->object = base64_encode(serialize($object));
+    }
+
+    /**
+     * @return string
+     */
+    public function getObject()
+    {
+        return unserialize(base64_decode($this->object));
     }
 }
