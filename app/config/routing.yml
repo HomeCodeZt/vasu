@@ -44,4 +44,8 @@ log_export:
     path: /log-export/
     defaults: {_controller: AppBundle:Su:logExport}
 
+ogame:
+  path: /ogame/
+  defaults: {_controller: AppBundle:Ogame:Test}
+
 
